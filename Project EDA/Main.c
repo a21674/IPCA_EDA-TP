@@ -8,13 +8,21 @@
 
 #include "Files.h"
 
+
 void main()
 {
+	PacientesTeste listaPacientes = NULL;
+	Hospitais listaHospitais = NULL;
 
+	int erro, erro2;
 
+	listaPacientes = carregadbPacientes(listaPacientes, &erro);
+	//listaHospitais = carregadbHospitais(listaHospitais, &erro2);
 
+	if (erro == 1) printf("Ocorreu um erro ao importar os dados"); 
+	else listar(listaPacientes);
 
-
-
+	//if (erro2 == 1) printf("Ocorreu um erro ao importar os dados");
+	//else listar(listaHospitais);
 
 }
