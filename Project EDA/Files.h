@@ -54,12 +54,19 @@ typedef struct pacientes {
     struct pacientes* proximo;
 }*Pacientes;
 
-typedef struct Hospitais {
+typedef struct vagas
+{
+    int numSNS;
+    struct vagas* seguinte;
+}*vagas;
+
+typedef struct Hospitais
+{
     char nome[1];
     int vagas;
-    struct Hospitais* proximo;
+    struct Hospitais* seguinte;
+    struct vagas* lista;
 }*Hospitais;
-
 
 //typedef struct listaPacientes {
 //    Pacientes* nPaciente;
@@ -78,6 +85,12 @@ void listar(Pacientes inicio);
 Pacientes loadHospitais(Pacientes inicio, int* erro);
 PacientesTeste carregadbPacientes2(PacientesTeste inicio, int* erro);
 void listar2(PacientesTeste inicio);
+void mostraFuncoes();
+Pacientes inserirPosicao(Pacientes listaDef, Pacientes x);
+Pacientes* inserirPacienteInicio(Pacientes lista, Pacientes x);
+
+
+
 
 
 

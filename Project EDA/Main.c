@@ -16,6 +16,7 @@ void main()
 
 	int erro, erro2;
 
+	mostraFuncoes();
 	listaPacientes = carregadbPacientes(listaPacientes, &erro);
 	//listaHospitais = carregadbHospitais(listaHospitais, &erro2);
 

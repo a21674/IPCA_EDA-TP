@@ -58,12 +58,10 @@ Pacientes carregadbPacientes(Pacientes inicio, int* erro)
 
 void listar(Pacientes inicio)
 {
-	printf("ID\t NOME\t  PREF1\t  DIST\t PREF2\t DIST\t PREF3\t  DIST\t PREF4\t  DIST\t PREF5\t DIST \n\n");
+	printf("\nID\t NOME\t  PREF1\t  DIST\t PREF2\t DIST\t PREF3\t  DIST\t PREF4\t  DIST\t PREF5\t DIST \n\n");
 	while (inicio != NULL)
 	{
-		printf("%-5d\t %-10s %2s\t %4d\t %2s\t %4d\t  %2s\t %4d\t %2s\t  %4d\t  %2s\t %-4d \n",
-			inicio->numSNS, inicio->nome, inicio->preferencia_1, inicio->distancia_1, inicio->preferencia_2, inicio->distancia_2, inicio->preferencia_3, inicio->distancia_3,
-			inicio->preferencia_4, inicio->distancia_4, inicio->preferencia_5, inicio->distancia_5);
+		printf("%-5d\t %-10s %2s\t %4d\t %2s\t %4d\t  %2s\t %4d\t %2s\t  %4d\t  %2s\t %-4d \n",inicio->numSNS, inicio->nome, inicio->preferencia_1, inicio->distancia_1, inicio->preferencia_2, inicio->distancia_2, inicio->preferencia_3, inicio->distancia_3,inicio->preferencia_4, inicio->distancia_4, inicio->preferencia_5, inicio->distancia_5);
 
 		inicio = inicio->proximo;
 	}
@@ -173,6 +171,130 @@ PacientesTeste procuraErros(PacientesTeste paciente, int erro)
 	return (1);
 }
 
+/**
+ * mostraFuncoes:
+ * Procedimento para mostrar menu de opções disponiveis de executar
+ */
+void mostraFuncoes()
+{
+	printf("=================================\n");
+	printf("Software de Atribuicao de Vagas\n");
+	printf("[1] Listar Dados Pacientes\n");
+	printf("[2] Listar Hospitais e vagas livres\n");
+	printf("[3] Gerir Pacientes com erros de dados\n");
+	printf("[4] Gerir Vagas de Hospitais\n");
+	printf("[5] Atribuir vagas e mostrar resultado\n");
+	printf("[0] Terminar Software\n");
+	printf("Escolha uma opcao: ");
+}
 
+/**
+ * escolheFuncao:
+ * Procedimento para ler escolha e executar a pção escolhida
+ * \param listaDef -->Lista ligada definitiva de pacientes
+ * \param listaHospitais -->Lista ligada dos Hospitais e suas vagas
+ * \param listaErros -->Lista ligada de pacientes com dados errados ou imcompletos
+ */
+void escolheFuncao(Pacientes* listaDef, Hospitais* listaHospitais, Pacientes listaErros )
+{
+	int opcao;
+	do 
+	{
+		mostraFuncoes();
+		scanf("%i", &opcao);
 
+		switch (opcao)
+		{
+		case 0:
+			printf("\n********** PROGRAMA TERMINADO **********\n");
+			break;
+		case 1:
+			listar(listaDef);
+			break;
+		case 2:
+			listarHospitais(listaHospitais);
+			break;
+		case 3:
+			editarErros(&listaDef, &listaErros);			// verificar código, estamos num procedimento logo temos de editar a lista
+			break;											// original para não a perder
+		case 4:
+			editaHospital(&listaHospitais);					// verificar código, estamos num procedimento logo temos de editar a lista
+			break;											// original para não a perder
+		case 5:
+			atribuiVagas(&listaDef, &listaHospitais);		// verificar código, estamos num procedimento logo temos de editar a lista
+			mostraTabelaHospitais(listaHospitais);			// original para não a perder
+			break;
+
+		}
+	} 	while (opcao != 0);
+}
+
+/**
+ * inserirPosicao:
+ * Função para dada a lista definiviva de pacientes insere um novo paciente cujos dados foram corrigidos na posição correta
+ * \param listaDef -->Recebe lista definiva de pacientes
+ * \param x -->Recebe um doente do tipo struct com dados corrigidos
+ * \return -->Devolve a lista definitiva com o paciente inserido na posição correta
+ */
+Pacientes inserirPosicao(Pacientes listaDef, Pacientes x)
+{
+	Pacientes aux = listaDef;
+	int contador = 0;
+	while (aux != NULL)
+	{
+		contador++;
+		aux = aux->proximo;
+	}
+	if ( x->numSNS >= 1 && x->numSNS <= contador + 1)
+	{
+		if (x->numSNS == 1)
+		{
+			return (inserirPacienteInicio(listaDef, x));
+		}
+		else
+		{
+			Pacientes novo = NULL;
+			Pacientes seguinte = x;
+
+			for (int i = 1; i < x->numSNS; i++)
+			{
+				novo = seguinte;
+				seguinte = novo->proximo;
+			}
+			novo->proximo = inserirInicio(seguinte, x);
+			return listaDef;
+		}
+	}
+	else { return listaDef; }
+}
+
+/**
+ * inserirPacienteInicio:
+ * Função que dada uma lista de pacientes insere no inicio um paciente
+ * \param lista -->Lista de pacientes a editar
+ * \param x -->Paciente do tipo struct a inserir
+ * \return -->Devolve a lista com o paciente inserido se for possivel
+ */
+Pacientes* inserirPacienteInicio(Pacientes lista, Pacientes x)
+{
+	Pacientes novo = malloc(sizeof(Pacientes));
+	if (novo != NULL)
+	{
+		novo->numSNS = x->numSNS;
+		novo->nome = strcpy(novo->nome, x->nome);
+		novo->preferencia_1 = strcpy(novo->preferencia_1, x->preferencia_1);
+		novo->distancia_1 = x->distancia_1;
+		novo->preferencia_2 = strcpy(novo->preferencia_2, x->preferencia_2);
+		novo->distancia_2 = x->distancia_2;
+		novo->preferencia_3 = strcpy(novo->preferencia_3, x->preferencia_3);
+		novo->distancia_3 = x->distancia_3;
+		novo->preferencia_4 = strcpy(novo->preferencia_4, x->preferencia_4);
+		novo->distancia_4 = x->distancia_4;
+		novo->preferencia_5 = strcpy(novo->preferencia_5, x->preferencia_5);
+		novo->distancia_5 = x->distancia_5;
+		novo->proximo = lista;
+		return (novo);
+	}
+	else return (lista);
+}
 
