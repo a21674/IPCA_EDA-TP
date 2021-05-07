@@ -45,6 +45,7 @@ Pacientes carregadbPacientes(Pacientes inicio, int* erro)
 				novo->distancia_4 = atoi(strtok(NULL, delimiter));
 				strcpy(novo->preferencia_5, strtok(NULL, delimiter));
 				novo->distancia_5 = atoi(strtok(NULL, endOfLine));
+				strcpy(novo->vaga, "VAZIO");
 
 				novo->proximo = inicio;
 			}
@@ -56,6 +57,11 @@ Pacientes carregadbPacientes(Pacientes inicio, int* erro)
 	}
 }
 
+/**
+ * listar:
+ * Procedimento para listar no ecra todos os pacientes carreegados por ficheiro assim como todos os seus dados
+ * \param inicio -->Recebe uma lista ligada de pacientes
+ */
 void listar(Pacientes inicio)
 {
 	printf("\nID\t NOME\t  PREF1\t  DIST\t PREF2\t DIST\t PREF3\t  DIST\t PREF4\t  DIST\t PREF5\t DIST \n\n");
@@ -148,27 +154,20 @@ void listar2(PacientesTeste inicio)
  * \param lista -->Recebe elemento da lista ligada de pacientes
  * \return --> 0 se contiver erros || 1 se estiver tudo completo e correto
  */
+
 PacientesTeste procuraErros(PacientesTeste paciente, int erro)
-{
-	if (paciente->numSNS < 1)
 	{
-		strcpy(paciente->dados, "numSNS");
-		return(0);
-	}
-	else if (paciente->nome == NULL)
-	{
-		strcpy(paciente->nome, "NOME");
-		return(0);
-	}
+	if (paciente->numSNS < 1) strcpy(paciente->dados, "numSNS");				//discutir a aparencia do ID SNS (Quantos digitos??)
+	else if (paciente->nome == NULL) strcpy(paciente->dados, "NOME");
 	else
 	{
 		for (int i = 0; i < paciente->preferencias; i++)
 		{
-			if (i == 1 && (paciente->preferencias[i]->preferencia == NULL || paciente->preferencias[i]->distancia < 1)) return(0);
-			else if (paciente->preferencias[i]->preferencia == NULL || paciente->preferencias[i]->distancia < 1) return(0);
+			if (i == 1 && (paciente->preferencias[i]->preferencia == NULL || paciente->preferencias[i]->distancia < 1)) strcpy(paciente->dados, "PREFERENCIA");;
+			else if (paciente->preferencias[i]->preferencia == NULL || paciente->preferencias[i]->distancia < 1) strcpy(paciente->dados, "PREFERENCIA");
 		}
 	}
-	return (1);
+	erro = 1;
 }
 
 /**
@@ -224,6 +223,9 @@ void escolheFuncao(Pacientes* listaDef, Hospitais* listaHospitais, Pacientes lis
 			atribuiVagas(&listaDef, &listaHospitais);		// verificar código, estamos num procedimento logo temos de editar a lista
 			mostraTabelaHospitais(listaHospitais);			// original para não a perder
 			break;
+		default:
+			printf("Essa opcao nao e valida!!!!\n");
+			break;
 
 		}
 	} 	while (opcao != 0);
@@ -254,10 +256,10 @@ Pacientes inserirPosicao(Pacientes listaDef, Pacientes x)
 		else
 		{
 			Pacientes novo = NULL;
-			Pacientes seguinte = x;
+			Pacientes seguinte = listaDef;
 
-			for (int i = 1; i < x->numSNS; i++)
-			{
+			for (int i = 1; i < x->numSNS; i++)					//x é o numSNS do paciente a inserir
+			{													//rever ciclo para situação de numSNS não sequenciais
 				novo = seguinte;
 				seguinte = novo->proximo;
 			}
@@ -275,26 +277,67 @@ Pacientes inserirPosicao(Pacientes listaDef, Pacientes x)
  * \param x -->Paciente do tipo struct a inserir
  * \return -->Devolve a lista com o paciente inserido se for possivel
  */
-Pacientes* inserirPacienteInicio(Pacientes lista, Pacientes x)
+Pacientes inserirPacienteInicio(Pacientes lista, Pacientes x)
 {
 	Pacientes novo = malloc(sizeof(Pacientes));
 	if (novo != NULL)
 	{
 		novo->numSNS = x->numSNS;
-		novo->nome = strcpy(novo->nome, x->nome);
-		novo->preferencia_1 = strcpy(novo->preferencia_1, x->preferencia_1);
+		strcpy(novo->nome, x->nome);
+		strcpy(novo->preferencia_1, x->preferencia_1);
 		novo->distancia_1 = x->distancia_1;
-		novo->preferencia_2 = strcpy(novo->preferencia_2, x->preferencia_2);
+		strcpy(novo->preferencia_2, x->preferencia_2);
 		novo->distancia_2 = x->distancia_2;
-		novo->preferencia_3 = strcpy(novo->preferencia_3, x->preferencia_3);
+		strcpy(novo->preferencia_3, x->preferencia_3);
 		novo->distancia_3 = x->distancia_3;
-		novo->preferencia_4 = strcpy(novo->preferencia_4, x->preferencia_4);
+		strcpy(novo->preferencia_4, x->preferencia_4);
 		novo->distancia_4 = x->distancia_4;
-		novo->preferencia_5 = strcpy(novo->preferencia_5, x->preferencia_5);
+		strcpy(novo->preferencia_5, x->preferencia_5);
 		novo->distancia_5 = x->distancia_5;
 		novo->proximo = lista;
 		return (novo);
 	}
 	else return (lista);
 }
+
+/**
+ * atribuiVagas:
+ * Função que dadas as lisltas ligadas de pacientes e hospitais analisa preferencias distancias e vagas livres para atribuir
+ * \param lista1 -->Recebe lista ligadaDef de Pacientes
+ * \param lista2 -->Recebe lista ligada dos Hospitais
+ */
+
+Hospitais atribuiVagas(Pacientes lista1, Hospitais lista2)
+{
+	Preferencias preferencia[2];
+
+	while (lista2 != NULL)
+	{
+		if (lista2->vagas != 0)
+		{
+			while (lista1 != NULL)
+			{
+				if (strcmp(lista1->vaga, "VAZIO") != 0)
+				{
+					preferencia = lista1->preferencia;
+					if (strcmp(preferencia, lista2->nome) == 0)
+					{
+						if (lista2->vagas > 0)
+						{
+							strcpy(lista1->vaga, lista2->nome);
+							lista2->listaVagas = inserirPosicao(lista2->listaVagas, lista1);
+						}
+						else atribuiVagas()
+					}
+
+				}
+				lista1 = lista1->proximo;
+			}
+		}
+		lista2 = lista2->seguinte;
+	}		
+
+}
+
+
 

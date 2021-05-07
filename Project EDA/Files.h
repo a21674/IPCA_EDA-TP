@@ -25,7 +25,7 @@ typedef struct preferencias {
     char preferencia[1];
     int distancia;
 
-}preferencias;
+}Preferencias;
 
 typedef struct pacientesTeste {
     int numSNS;
@@ -57,6 +57,7 @@ typedef struct pacientes {
 typedef struct vagas
 {
     int numSNS;
+    Pacientes* utente;
     struct vagas* seguinte;
 }*vagas;
 
@@ -65,7 +66,7 @@ typedef struct Hospitais
     char nome[1];
     int vagas;
     struct Hospitais* seguinte;
-    struct vagas* lista;
+    struct vagas* listaVagas;
 }*Hospitais;
 
 //typedef struct listaPacientes {
@@ -87,7 +88,9 @@ PacientesTeste carregadbPacientes2(PacientesTeste inicio, int* erro);
 void listar2(PacientesTeste inicio);
 void mostraFuncoes();
 Pacientes inserirPosicao(Pacientes listaDef, Pacientes x);
-Pacientes* inserirPacienteInicio(Pacientes lista, Pacientes x);
+Pacientes inserirPacienteInicio(Pacientes lista, Pacientes x);
+int procuraErros(PacientesTeste paciente, int erro);
+
 
 
 
