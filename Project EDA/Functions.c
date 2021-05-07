@@ -327,7 +327,7 @@ Hospitais atribuiVagas(Pacientes lista1, Hospitais lista2)
 							strcpy(lista1->vaga, lista2->nome);
 							lista2->listaVagas = inserirPosicao(lista2->listaVagas, lista1);
 						}
-						else atribuiVagas()
+						else atribuiVagas();
 					}
 
 				}
@@ -339,5 +339,19 @@ Hospitais atribuiVagas(Pacientes lista1, Hospitais lista2)
 
 }
 
+/**
+ * ordenaPacientesPreferencia:
+ * Função que recebe uma lista de pacientes e ordena primeiramente por hospital e depois por distancia
+ * \param lista1 -->Lista de pacientes
+ */
+void ordenaPacientesPreferencia(Pacientes lista1)
+{
+	Pacientes aux = malloc(sizeof(Pacientes));
+
+	if (lista1 != NULL)
+	{
 
 
+	}
+
+}
