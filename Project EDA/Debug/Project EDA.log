@@ -1,0 +1,9 @@
+﻿  Functions.c
+D:\IPCA\1ºAno\2º Semestre\EDA\Project EDA\Project EDA\Functions.c(22,46): warning C4047: 'return': 'Pacientes' differs in levels of indirection from 'int'
+D:\IPCA\1ºAno\2º Semestre\EDA\Project EDA\Project EDA\Functions.c(31,1): warning C4047: 'initializing': 'Pacientes' differs in levels of indirection from 'Pacientes *'
+D:\IPCA\1ºAno\2º Semestre\EDA\Project EDA\Project EDA\Functions.c(64,46): warning C4047: 'return': 'Pacientes' differs in levels of indirection from 'int'
+D:\IPCA\1ºAno\2º Semestre\EDA\Project EDA\Project EDA\Functions.c(67,1): warning C4047: 'initializing': 'Pacientes' differs in levels of indirection from 'Pacientes *'
+  Main.c
+  Generating Code...
+D:\IPCA\1ºAno\2º Semestre\EDA\Project EDA\Project EDA\Functions.c(80): warning C4715: 'loadHospitais': not all control paths return a value
+  Project EDA.vcxproj -> D:\IPCA\1ºAno\2º Semestre\EDA\Project EDA\Debug\Project EDA.exe
