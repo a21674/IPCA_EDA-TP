@@ -1,6 +1,6 @@
 /*****************************************************************//**
  * \file   Functions.c
- * \brief  Ficheiro que contem todas as funçoes e procedimentos a ser utilizados na funçao main
+ * \brief  Ficheiro que contem todas as funÃ§oes e procedimentos a ser utilizados na funÃ§ao main
  * \email  
  * \author 20844_Oscar Araujo / 20845_Elson Simoes / 21674_Rui Lopes
  * \date   24 March 2021
@@ -11,7 +11,7 @@
 
  /**
   * mostraFuncoes:
-  * Procedimento para mostrar menu de opções disponiveis de executar
+  * Procedimento para mostrar menu de opÃ§Ãµes disponiveis de executar
   */
 void mostraFuncoes()
 {
@@ -28,7 +28,7 @@ void mostraFuncoes()
 
 
  /**
-  * Função que abre o ficheiro txt com a Lista dos Pacientes, valida se tudo correu bem e carrega para uma lista ligada
+  * FunÃ§Ã£o que abre o ficheiro txt com a Lista dos Pacientes, valida se tudo correu bem e carrega para uma lista ligada
   * \param tipoUnidades
   * \param size
   */
@@ -49,7 +49,7 @@ Pacientes* carregadbPacientes(Pacientes* inicio, int *erro)
 		{
 			if (checkErros != NULL)
 			{
-				checkErros->numSNS = atoi(strtok(str, delimiter)); //como a função strok lê uma string, para converter para um inteiro o ID usamos a função atoi que faz o cast de string para int;
+				checkErros->numSNS = atoi(strtok(str, delimiter)); //como a funÃ§Ã£o strok lÃª uma string, para converter para um inteiro o ID usamos a funÃ§Ã£o atoi que faz o cast de string para int;
 				strcpy(checkErros->nome, strtok(NULL, delimiter));
 				strcpy(checkErros->preferencia[0].preferencia, strtok(NULL, delimiter));
 				checkErros->preferencia[0].distancia = atoi(strtok(NULL, delimiter));
@@ -64,60 +64,16 @@ Pacientes* carregadbPacientes(Pacientes* inicio, int *erro)
 				strcpy(checkErros->vaga, "VAZIO");
 			}
 			//inicio = inserePacInicio(inicio, checkErros);
-			//inicio = inserePacFim(inicio, checkErros);
-			inicio = checkErrosPac(inicio, checkErros);
-
+			inicio = inserePacFim(inicio, checkErros);
 		}
-		fclose(dbPacientes); //no fim de abrir o documento e passar o conteúdo para a lista, fechamos o file e gravamos
+		fclose(dbPacientes); //no fim de abrir o documento e passar o conteÃºdo para a lista, fechamos o file e gravamos
 		return(inicio); //retorna a nova lista carregada caso corra tudo bem
-	}
-}
-
-
-/**
- * procuraErros:
- * Função que dada um elemento de uma lista de pacientes procura a existencia de erros nos dados fornecidos pelo mesmo
- * \param lista -->Recebe elemento da lista ligada de pacientes
- * \return --> 0 se contiver erros || 1 se estiver tudo completo e correto
- */
-Pacientes* checkErrosPac(Pacientes* lista, Pacientes* checkErros)
-{
-	boolean nSNSExist;
-	if (checkErros->numSNS == NULL) {
-		//insereListaErros(erro1); 
-	}
-	else
-	{
-		nSNSExist = checkNumSNSExist(lista, checkErros->numSNS);
-		if (nSNSExist == true) {
-			//insereListaErros(erro2); 
-		}
-		else if (checkErros->preferencia[0].preferencia == NULL || checkErros->preferencia[0].distancia == NULL) {
-			//insereListaErros(erro3); 
-		}
-		else inserePacFim(lista, checkErros);
-	}
-	
-
-}
-
-boolean checkNumSNSExist(Pacientes* lista, int numSNS)
-{
-	if (lista == NULL) return false;
-	else
-	{
-		while (lista != NULL)
-		{
-			if (numSNS == lista->numSNS) return true;
-			lista = lista->proximo;
-		}
-		return false;
 	}
 }
 
 /**
  * inserirPacienteInicio:
- * Função que dada uma lista de pacientes insere no inicio um paciente
+ * FunÃ§Ã£o que dada uma lista de pacientes insere no inicio um paciente
  * \param lista -->Lista de pacientes a editar
  * \param entrada -->Paciente do tipo struct a inserir
  * \return -->Devolve a lista com o paciente inserido se for possivel
@@ -149,7 +105,7 @@ Pacientes* inserePacInicio(Pacientes* lista, Pacientes* entrada)
 
 /**
  * inserePacFim
- * Função que dada uma lista de pacientes insere no fim um paciente
+ * FunÃ§Ã£o que dada uma lista de pacientes insere no fim um paciente
  * \param lista -->Lista de pacientes a editar
  * \param entrada -->Paciente do tipo struct a inserir
  * \return -->Devolve a lista com o paciente inserido se for possivel
@@ -193,7 +149,7 @@ Pacientes* inserePacFim(Pacientes* lista, Pacientes* entrada)
  */
 void listar(Pacientes* inicio)
 {
-	Pacientes* aux = inicio; //cria um apontador que irá apontar para o inicio
+	Pacientes* aux = inicio; //cria um apontador que irÃ¡ apontar para o inicio
 	printf("\nID\t NOME\t  PREF1\t  DIST\t PREF2\t DIST\t PREF3\t  DIST\t PREF4\t  DIST\t PREF5\t DIST \n\n");
 	while (aux != NULL)
 	{
@@ -202,55 +158,9 @@ void listar(Pacientes* inicio)
 			aux->preferencia[1].distancia, aux->preferencia[2].preferencia, aux->preferencia[2].distancia, aux->preferencia[3].preferencia,
 			aux->preferencia[3].distancia, aux->preferencia[4].preferencia, aux->preferencia[4].distancia);
 
-		aux = aux->proximo; //aux ficará com o valor do próximo elemento
+		aux = aux->proximo; //aux ficarÃ¡ com o valor do prÃ³ximo elemento
 	}
 }
-
-
-
-
-
-
-
-/**
- * inserirPosicao:
- * Função para dada a lista definiviva de pacientes insere um novo paciente cujos dados foram corrigidos na posição correta
- * \param listaDef -->Recebe lista definiva de pacientes
- * \param x -->Recebe um doente do tipo struct com dados corrigidos
- * \return -->Devolve a lista definitiva com o paciente inserido na posição correta
- */
-//Pacientes inserirPosicao(Pacientes listaDef, Pacientes x)
-//{
-//	Pacientes aux = listaDef;
-//	int contador = 0;
-//	while (aux != NULL)
-//	{
-//		contador++;
-//		aux = aux->proximo;
-//	}
-//	if ( x->numSNS >= 1 && x->numSNS <= contador + 1)
-//	{
-//		if (x->numSNS == 1)
-//		{
-//			return (inserirPacienteInicio(listaDef, x));
-//		}
-//		else
-//		{
-//			Pacientes novo = NULL;
-//			Pacientes seguinte = listaDef;
-//
-//			for (int i = 1; i < x->numSNS; i++)					//x é o numSNS do paciente a inserir
-//			{													//rever ciclo para situação de numSNS não sequenciais
-//				novo = seguinte;
-//				seguinte = novo->proximo;
-//			}
-//			novo->proximo = inserirInicio(seguinte, x);
-//			return listaDef;
-//		}
-//	}
-//	else { return listaDef; }
-//}
-
 
 
 
