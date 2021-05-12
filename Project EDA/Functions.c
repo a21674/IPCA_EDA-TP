@@ -155,7 +155,7 @@ void listar2(PacientesTeste inicio)
  * \return --> 0 se contiver erros || 1 se estiver tudo completo e correto
  */
 
-PacientesTeste procuraErros(PacientesTeste paciente, int erro)
+Pacientes procuraErros(Pacientes paciente, int erro)
 	{
 	if (paciente->numSNS < 1) strcpy(paciente->dados, "numSNS");				//discutir a aparencia do ID SNS (Quantos digitos??)
 	else if (paciente->nome == NULL) strcpy(paciente->dados, "NOME");
@@ -344,14 +344,17 @@ Hospitais atribuiVagas(Pacientes lista1, Hospitais lista2)
  * Função que recebe uma lista de pacientes e ordena primeiramente por hospital e depois por distancia
  * \param lista1 -->Lista de pacientes
  */
-void ordenaPacientesPreferencia(Pacientes lista1)
+void ordenaPacientesPreferencia(Pacientes lista1, Hospitais lista2)
 {
 	Pacientes aux = malloc(sizeof(Pacientes));
+	char hospital[1];
 
-	if (lista1 != NULL)
+	if (lista2 != NULL)
 	{
+		strcpy(hospital, lista2->nome);
 
 
+		lista2 = lista2->seguinte;
 	}
 
 }

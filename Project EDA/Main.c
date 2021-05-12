@@ -9,9 +9,9 @@
 #include "Files.h"
 
 
-void main()
+void main2()
 {
-	PacientesTeste listaPacientes = NULL;
+	Pacientes listaPacientes = NULL;
 	Hospitais listaHospitais = NULL;
 
 	int erro, erro2;

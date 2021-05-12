@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Functions.c" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="Testes.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Files.h" />

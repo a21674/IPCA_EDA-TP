@@ -27,32 +27,32 @@ typedef struct preferencias {
 
 }Preferencias;
 
-typedef struct pacientesTeste {
-    int numSNS;
-    char nome[MAXNOME];
-    struct preferencias* preferencias[5];
-    char vaga[5];
-    char dados[10];
-    struct pacientes* proximo;
-}*PacientesTeste;
-
-
 typedef struct pacientes {
     int numSNS;
     char nome[MAXNOME];
-    char preferencia_1[1];
-    int distancia_1;
-    char preferencia_2[1];
-    int distancia_2;
-    char preferencia_3[1];
-    int distancia_3;
-    char preferencia_4[1];
-    int distancia_4;
-    char preferencia_5[1];
-    int distancia_5;
+    struct preferencias preferencias[5];
     char vaga[5];
+    char dados[10];
     struct pacientes* proximo;
 }*Pacientes;
+
+
+//typedef struct pacientes {
+//    int numSNS;
+//    char nome[MAXNOME];
+//    char preferencia_1[1];
+//    int distancia_1;
+//    char preferencia_2[1];
+//    int distancia_2;
+//    char preferencia_3[1];
+//    int distancia_3;
+//    char preferencia_4[1];
+//    int distancia_4;
+//    char preferencia_5[1];
+//    int distancia_5;
+//    char vaga[5];
+//    struct pacientes* proximo;
+//}*Pacientes;
 
 typedef struct vagas
 {
@@ -84,12 +84,12 @@ typedef struct Hospitais
 Pacientes carregadbPacientes(Pacientes inicio, int* erro);
 void listar(Pacientes inicio);
 Pacientes loadHospitais(Pacientes inicio, int* erro);
-PacientesTeste carregadbPacientes2(PacientesTeste inicio, int* erro);
-void listar2(PacientesTeste inicio);
+Pacientes carregadbPacientes2(Pacientes inicio, int* erro);
+void listar2(Pacientes inicio);
 void mostraFuncoes();
 Pacientes inserirPosicao(Pacientes listaDef, Pacientes x);
 Pacientes inserirPacienteInicio(Pacientes lista, Pacientes x);
-int procuraErros(PacientesTeste paciente, int erro);
+int procuraErros(Pacientes paciente, int erro);
 
 
 
