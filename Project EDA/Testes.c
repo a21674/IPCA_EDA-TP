@@ -11,11 +11,15 @@
 
 
 
-
+/**
+ * ordenaPacientesPreferencia:
+ * Função que recebe a lista de pacientes e ordena por preferencia principal e distancia
+ * \param lista1 -->Recebe a lista ligada de pacientes a ordenar
+ * \param lista2 -->Recebe a lista de Hospitais disponiveis
+ */
 void ordenaPacientesPreferencia(Pacientes lista1, Hospitais lista2)
 {
 	Pacientes aux = malloc(sizeof(Pacientes));
-	Pacientes ultimo = malloc(sizeof(Pacientes));
 	char hospital[1];
 
 	while (lista2 != NULL)
@@ -25,8 +29,7 @@ void ordenaPacientesPreferencia(Pacientes lista1, Hospitais lista2)
 		{
 			if (strcmp(lista1->preferencias[0].preferencia, hospital) == 0)
 			{
-				inserePacienteFim(&aux, lista1);
-				ordenaPacientesDistancia(&aux);
+				inserirPacientePosicao(&aux, lista1, hospital);
 			}
 			lista1 = lista1->proximo;
 		}
@@ -36,18 +39,24 @@ void ordenaPacientesPreferencia(Pacientes lista1, Hospitais lista2)
 
 }
 
-Pacientes inserePacienteOrdenado(Pacientes lista, Pacientes paciente)
-{
-	if (lista != NULL)
-	{
-
-	}
-}
-
-Pacientes inserirPacienteFim(Pacientes lista, Pacientes paciente)
+/**
+ * inserirPacientePosicao:
+ * Função que dado o endereço de uma lista ligada e um determinado paciente insere o paciente na posição que lhe é devida
+ * \param lista -->Recebe lista ligada de Pacientes
+ * \param paciente -->Recebe o paciente a inserir na lista ligada
+ * \return -->Devolve uma nova lista ligada com o paciente inserido na posição correta
+ */
+Pacientes inserirPacientePosicao(Pacientes* lista, Pacientes paciente, char hospital)
 {
 	int i = 0;
 	Pacientes novo = malloc(sizeof(Pacientes));
+	int compara;
+
+	if (lista == NULL) { inserirPacienteInicio(&lista, paciente); return (lista); }
+
+	compara = strcmp(hospital, lista);
+	if (compara != 0 && (lista->preferencias[0].distancia < paciente->preferencias[0].distancia))
+		inserirPacientePosicao(lista->proximo, paciente, hospital);
 	if (novo != NULL)
 	{
 		novo->numSNS = paciente->numSNS;

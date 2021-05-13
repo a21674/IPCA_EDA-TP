@@ -15,48 +15,50 @@
   * \param tipoUnidades
   * \param size
   */
-Pacientes carregadbPacientes(Pacientes inicio, int* erro)
+
+  /**
+   * Função que abre o ficheiro txt com a Lista dos Pacientes, valida se tudo correu bem e carrega para uma lista ligada
+   * \param tipoUnidades
+   * \param size
+   */
+Pacientes* carregadbPacientes(Pacientes* inicio, int* erro)
 {
 	FILE* dbPacientes; //cria um apontador do tipo file
 	dbPacientes = fopen(PATH_DB_PACIENTES, "r");
 
-	if (dbPacientes == NULL) return (*erro = -1); //erro de abertura do ficheiro
-
+	if (dbPacientes == NULL) {}//{ return (*erro -1); } //erro de abertura do ficheiro
 	else {
 		char str[100]
 			, delimiter[1] = ";" //define o delimitador ";" que separa as colunas do ficheiro txt
 			, endOfLine[2] = "\n"; //define o delimitador fim da linha \n, usamos este delimitador quando lemos a ultima coluna, caso contrario se for uma string ela guarda o caracter \n junto com a string
 
+		Pacientes* checkErros = (Pacientes*)malloc(sizeof(Pacientes));
+
 		while (fgets(str, sizeof(str), dbPacientes) != NULL)
 		{
-			Pacientes novo = (Pacientes*)malloc(sizeof(Pacientes));
-
-			if (novo != NULL)
+			if (checkErros != NULL)
 			{
-				novo->numSNS = atoi(strtok(str, delimiter)); //como a função strok lê uma string, para converter para um inteiro o ID usamos a função atoi que faz o cast de string para int;
-				strcpy(novo->nome, strtok(NULL, delimiter));
-				strcpy(novo->preferencia_1, strtok(NULL, delimiter));
-				novo->distancia_1 = atoi(strtok(NULL, delimiter));
-				strcpy(novo->preferencia_2, strtok(NULL, delimiter));
-				novo->distancia_2 = atoi(strtok(NULL, delimiter));
-				strcpy(novo->preferencia_3, strtok(NULL, delimiter));
-				novo->distancia_3 = atoi(strtok(NULL, delimiter));
-				strcpy(novo->preferencia_4, strtok(NULL, delimiter));
-				novo->distancia_4 = atoi(strtok(NULL, delimiter));
-				strcpy(novo->preferencia_5, strtok(NULL, delimiter));
-				novo->distancia_5 = atoi(strtok(NULL, endOfLine));
-				strcpy(novo->vaga, "VAZIO");
-
-				novo->proximo = inicio;
+				checkErros->numSNS = atoi(strtok(str, delimiter)); //como a função strok lê uma string, para converter para um inteiro o ID usamos a função atoi que faz o cast de string para int;
+				strcpy(checkErros->nome, strtok(NULL, delimiter));
+				strcpy(checkErros->preferencia[0].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencia[0].distancia = atoi(strtok(NULL, delimiter));
+				strcpy(checkErros->preferencia[1].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencia[1].distancia = atoi(strtok(NULL, delimiter));
+				strcpy(checkErros->preferencia[2].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencia[2].distancia = atoi(strtok(NULL, delimiter));
+				strcpy(checkErros->preferencia[3].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencia[3].distancia = atoi(strtok(NULL, delimiter));
+				strcpy(checkErros->preferencia[4].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencia[4].distancia = atoi(strtok(NULL, endOfLine));
+				strcpy(checkErros->vaga, "VAZIO");
 			}
-			inicio = novo;
-
+			//inicio = inserePacInicio(inicio, checkErros);
+			inicio = inserePacFim(inicio, checkErros);
 		}
 		fclose(dbPacientes); //no fim de abrir o documento e passar o conteúdo para a lista, fechamos o file e gravamos
 		return(inicio); //retorna a nova lista carregada caso corra tudo bem
 	}
 }
-
 /**
  * listar:
  * Procedimento para listar no ecra todos os pacientes carreegados por ficheiro assim como todos os seus dados
@@ -73,80 +75,9 @@ void listar(Pacientes inicio)
 	}
 }
 
-/**
- * loadHospitais:
- * Função que abre o ficheiro txt com a lista de pacientes e 
- * \param inicio -->Lista ligada com todos os pacientes
- * \param erro --> valor a retornar dependendo do sucesso de leitura do ficheiro
- */
 
-/*Hospitais loadHospitais(Hospitais lista, int* erro)
-{
 
-	FILE* dbPacientes; //cria um apontador do tipo file
-	dbPacientes = fopen(PATH_DB_PACIENTES, "r");
 
-	if (dbPacientes == NULL) return (*erro = -1); //erro de abertura do ficheiro
-
-	else {
-		Hospitais novo = (Hospitais*)malloc(sizeof(Hospitais));
-
-		while (!feof(dbPacientes)) {
-			fscanf(dbPacientes, "%s;%[^;]d;",&lista->nome, lista->vagas);
-		}
-	}
-	fclose(dbPacientes);
-
-}*/
-
-/*PacientesTeste carregadbPacientes2(PacientesTeste inicio, int* erro)
-{
-	FILE* dbPacientes; //cria um apontador do tipo file
-	dbPacientes = fopen(PATH_DB_PACIENTES, "r");
-
-	if (dbPacientes == NULL) return(erro = -1); //erro de abertura do ficheiro
-
-	else {
-		char str[100]
-			, delimiter[1] = ";" //define o delimitador ";" que separa as colunas do ficheiro txt
-			, endOfLine[2] = "\n"; //define o delimitador fim da linha \n, usamos este delimitador quando lemos a ultima coluna, caso contrario se for uma string ela guarda o caracter \n junto com a string
-
-		while (fgets(str, sizeof(str), dbPacientes) != NULL)
-		{
-			PacientesTeste novo = (PacientesTeste*)malloc(sizeof(Pacientes));
-
-			if (novo != NULL)
-			{
-				novo->numSNS = atoi(strtok(str, delimiter)); //como a função strok lê uma string, para converter para um inteiro o ID usamos a função atoi que faz o cast de string para int;
-				strcpy(novo->nome, strtok(NULL, delimiter));
-				for (int i = 0; i < 5; i++)
-				{
-					strcpy(novo->preferencias[i]->preferencia, strtok(NULL, delimiter));
-					novo->preferencias[i]->distancia = atoi(strtok(NULL, delimiter));
-				}
-
-				novo->proximo = inicio;
-			}
-			inicio = novo;
-
-		}
-		fclose(dbPacientes); //no fim de abrir o documento e passar o conteúdo para a lista, fechamos o file e gravamos
-		return(inicio); //retorna a nova lista carregada caso corra tudo bem
-	}
-}
-
-*/
-
-/*
-void listar2(PacientesTeste inicio)
-{
-	while (inicio != NULL)
-	{
-		printf("%d; %s; ",inicio->numSNS, inicio->nome);
-
-		inicio = inicio->proximo;
-	}
-}*/
 
 /**
  * procuraErros:
@@ -277,29 +208,30 @@ Pacientes inserirPosicao(Pacientes listaDef, Pacientes x)
  * \param x -->Paciente do tipo struct a inserir
  * \return -->Devolve a lista com o paciente inserido se for possivel
  */
-Pacientes inserirPacienteInicio(Pacientes lista, Pacientes x)
+Pacientes* inserePacInicio(Pacientes* lista, Pacientes* entrada)
 {
-	Pacientes novo = malloc(sizeof(Pacientes));
+	Pacientes* novo = (Pacientes*)malloc(sizeof(Pacientes));
 	if (novo != NULL)
 	{
-		novo->numSNS = x->numSNS;
-		strcpy(novo->nome, x->nome);
-		strcpy(novo->preferencia_1, x->preferencia_1);
-		novo->distancia_1 = x->distancia_1;
-		strcpy(novo->preferencia_2, x->preferencia_2);
-		novo->distancia_2 = x->distancia_2;
-		strcpy(novo->preferencia_3, x->preferencia_3);
-		novo->distancia_3 = x->distancia_3;
-		strcpy(novo->preferencia_4, x->preferencia_4);
-		novo->distancia_4 = x->distancia_4;
-		strcpy(novo->preferencia_5, x->preferencia_5);
-		novo->distancia_5 = x->distancia_5;
+		novo->numSNS = entrada->numSNS;
+		strcpy(novo->nome, entrada->nome);
+		strcpy(novo->preferencia[0].preferencia, entrada->preferencia[0].preferencia);
+		novo->preferencia[0].distancia = entrada->preferencia[0].distancia;
+		strcpy(novo->preferencia[1].preferencia, entrada->preferencia[1].preferencia);
+		novo->preferencia[1].distancia = entrada->preferencia[1].distancia;
+		strcpy(novo->preferencia[2].preferencia, entrada->preferencia[2].preferencia);
+		novo->preferencia[2].distancia = entrada->preferencia[2].distancia;
+		strcpy(novo->preferencia[3].preferencia, entrada->preferencia[3].preferencia);
+		novo->preferencia[3].distancia = entrada->preferencia[3].distancia;
+		strcpy(novo->preferencia[4].preferencia, entrada->preferencia[4].preferencia);
+		novo->preferencia[4].distancia = entrada->preferencia[4].distancia;
+
 		novo->proximo = lista;
+
 		return (novo);
 	}
 	else return (lista);
 }
-
 /**
  * atribuiVagas:
  * Função que dadas as lisltas ligadas de pacientes e hospitais analisa preferencias distancias e vagas livres para atribuir

@@ -87,7 +87,7 @@ Pacientes loadHospitais(Pacientes inicio, int* erro);
 Pacientes carregadbPacientes2(Pacientes inicio, int* erro);
 void listar2(Pacientes inicio);
 void mostraFuncoes();
-Pacientes inserirPosicao(Pacientes listaDef, Pacientes x);
+Pacientes inserirPacientePosicao(Pacientes lista, Pacientes paciente);
 Pacientes inserirPacienteInicio(Pacientes lista, Pacientes x);
 int procuraErros(Pacientes paciente, int erro);
 
