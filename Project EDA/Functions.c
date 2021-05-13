@@ -21,7 +21,7 @@
    * \param tipoUnidades
    * \param size
    */
-Pacientes* carregadbPacientes(Pacientes* inicio, int* erro)
+Pacientes carregadbPacientes(Pacientes inicio, int* erro)
 {
 	FILE* dbPacientes; //cria um apontador do tipo file
 	dbPacientes = fopen(PATH_DB_PACIENTES, "r");
@@ -32,7 +32,7 @@ Pacientes* carregadbPacientes(Pacientes* inicio, int* erro)
 			, delimiter[1] = ";" //define o delimitador ";" que separa as colunas do ficheiro txt
 			, endOfLine[2] = "\n"; //define o delimitador fim da linha \n, usamos este delimitador quando lemos a ultima coluna, caso contrario se for uma string ela guarda o caracter \n junto com a string
 
-		Pacientes* checkErros = (Pacientes*)malloc(sizeof(Pacientes));
+		Pacientes checkErros = (Pacientes*)malloc(sizeof(Pacientes));
 
 		while (fgets(str, sizeof(str), dbPacientes) != NULL)
 		{
@@ -40,16 +40,16 @@ Pacientes* carregadbPacientes(Pacientes* inicio, int* erro)
 			{
 				checkErros->numSNS = atoi(strtok(str, delimiter)); //como a função strok lê uma string, para converter para um inteiro o ID usamos a função atoi que faz o cast de string para int;
 				strcpy(checkErros->nome, strtok(NULL, delimiter));
-				strcpy(checkErros->preferencia[0].preferencia, strtok(NULL, delimiter));
-				checkErros->preferencia[0].distancia = atoi(strtok(NULL, delimiter));
-				strcpy(checkErros->preferencia[1].preferencia, strtok(NULL, delimiter));
-				checkErros->preferencia[1].distancia = atoi(strtok(NULL, delimiter));
-				strcpy(checkErros->preferencia[2].preferencia, strtok(NULL, delimiter));
-				checkErros->preferencia[2].distancia = atoi(strtok(NULL, delimiter));
-				strcpy(checkErros->preferencia[3].preferencia, strtok(NULL, delimiter));
-				checkErros->preferencia[3].distancia = atoi(strtok(NULL, delimiter));
-				strcpy(checkErros->preferencia[4].preferencia, strtok(NULL, delimiter));
-				checkErros->preferencia[4].distancia = atoi(strtok(NULL, endOfLine));
+				strcpy(checkErros->preferencias[0].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencias[0].distancia = atoi(strtok(NULL, delimiter));
+				strcpy(checkErros->preferencias[1].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencias[1].distancia = atoi(strtok(NULL, delimiter));
+				strcpy(checkErros->preferencias[2].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencias[2].distancia = atoi(strtok(NULL, delimiter));
+				strcpy(checkErros->preferencias[3].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencias[3].distancia = atoi(strtok(NULL, delimiter));
+				strcpy(checkErros->preferencias[4].preferencia, strtok(NULL, delimiter));
+				checkErros->preferencias[4].distancia = atoi(strtok(NULL, endOfLine));
 				strcpy(checkErros->vaga, "VAZIO");
 			}
 			//inicio = inserePacInicio(inicio, checkErros);
@@ -74,10 +74,6 @@ void listar(Pacientes inicio)
 		inicio = inicio->proximo;
 	}
 }
-
-
-
-
 
 /**
  * procuraErros:
