@@ -32,12 +32,12 @@ void mostraFuncoes()
   * \param tipoUnidades
   * \param size
   */
-Pacientes* carregadbPacientes(Pacientes* inicio, int *erro)
+Pacientes* carregadbPacientes(Pacientes* inicio, int* erro)
 {
 	FILE* dbPacientes; //cria um apontador do tipo file
 	dbPacientes = fopen(PATH_DB_PACIENTES, "r");
 
-	if (dbPacientes == NULL) { }//{ return (*erro -1); } //erro de abertura do ficheiro
+	if (dbPacientes == NULL) *erro = -1; //erro de abertura do ficheiro
 	else {
 		char str[100]
 			, delimiter[1] = ";" //define o delimitador ";" que separa as colunas do ficheiro txt
@@ -66,11 +66,11 @@ Pacientes* carregadbPacientes(Pacientes* inicio, int *erro)
 			//inicio = inserePacInicio(inicio, checkErros);
 			inicio = inserePacFim(inicio, checkErros);
 		}
+		*erro = 0;
 		fclose(dbPacientes); //no fim de abrir o documento e passar o conteúdo para a lista, fechamos o file e gravamos
 		return(inicio); //retorna a nova lista carregada caso corra tudo bem
 	}
 }
-
 /**
  * inserirPacienteInicio:
  * Função que dada uma lista de pacientes insere no inicio um paciente

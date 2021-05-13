@@ -38,22 +38,6 @@ typedef struct pacientes {
 }Pacientes;
 
 
-//typedef struct pacientes {
-//    int numSNS;
-//    char nome[MAXNOME];
-//    char preferencia_1[1];
-//    int distancia_1;
-//    char preferencia_2[1];
-//    int distancia_2;
-//    char preferencia_3[1];
-//    int distancia_3;
-//    char preferencia_4[1];
-//    int distancia_4;
-//    char preferencia_5[1];
-//    int distancia_5;
-//    char vaga[5];
-//    struct pacientes* proximo;
-//}*Pacientes;
 
 //typedef struct vagas
 //{

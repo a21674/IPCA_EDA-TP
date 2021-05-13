@@ -15,6 +15,11 @@ void main()
 	//Hospitais listaHospitais = NULL;
 	int erro, erro2;
 	int opcao;
+
+	carregadbPacientes(&listaPacientes, &erro);
+	if (erro == -1) printf("Ocorreu um erro ao importar os dados\n");
+	else printf("Lista de Pacientes carregada com Sucesso!!\n");
+
 	do
 	{
 		mostraFuncoes();
@@ -25,11 +30,8 @@ void main()
 			printf("\n********** PROGRAMA TERMINADO **********\n");
 			break;
 		case 1:
-			listaPacientes = carregadbPacientes(listaPacientes, &erro);
 
-			if (erro == 1) printf("Ocorreu um erro ao importar os dados");
-			else listar(listaPacientes);
-			printf("\n");
+			listar(listaPacientes);
 			break;
 		case 2:
 			//listaHospitais = carregadbHospitais(listaHospitais, &erro2);
